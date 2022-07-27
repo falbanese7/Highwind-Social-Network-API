@@ -1,5 +1,8 @@
 const { Schema, model } = require('mongoose');
-
+const validateEmail = (email) => {
+  const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return re.test(email);
+};
 // Schema to create Student model
 const userSchema = new Schema(
   {
@@ -40,11 +43,9 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.virtual(
-  'friendCount'.get(function () {
-    return this.friends.length;
-  })
-);
+userSchema.virtual('friendCount').get(function () {
+  return this.friends.length;
+});
 
 const User = model('User', userSchema);
 

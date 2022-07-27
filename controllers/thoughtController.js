@@ -10,8 +10,8 @@ const thoughtController = {
       .catch((err) => res.status(500).json(err));
   },
   // Get a single thought
-  getSingleThought(req, res) {
-    Thought.findOne({ _id: req.params.id })
+  getSingleThought({ params }, res) {
+    Thought.findOne({ _id: params.id })
       .populate({ path: 'reactions', select: '-__v' })
       .select('-__v')
       .then((thought) =>
@@ -64,11 +64,11 @@ const thoughtController = {
           return;
         }
         User.findOneAndUpdate(
-          { username: thoughts.username },
-          { $pull: { thoughts: params.id } }
+          { username: thought.username },
+          { $pull: { thought: params.id } }
         )
           .then(() => {
-            res.json({ message: 'Successfully deleted thought' });
+            res.json({ message: 'Thought deleted successfully' });
           })
           .catch((err) => res.status(400).json(err));
       })
@@ -77,9 +77,9 @@ const thoughtController = {
 
   // Add a reaction to a thought
   addReaction({ params, body }, res) {
-    User.findOneAndUpdate(
+    Thought.findOneAndUpdate(
       { _id: params.thoughtId },
-      { $addToSet: { reaction: body } },
+      { $addToSet: { reactions: body } },
       { new: true, runValidators: true }
     )
       .then((thought) => {
@@ -92,11 +92,11 @@ const thoughtController = {
       .catch((err) => res.status(400).json(err));
   },
   // Delete a reaction from a thought
-  deleteReaction({ params, body }, res) {
+  deleteReaction({ params }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
-      { $pull: { reactions: { reactionId: body.reactionId } } },
-      { new: true, runValidators: true }
+      { $pull: { reactions: { _id: params.reactionId } } },
+      { new: true }
     )
       .then((thought) => {
         if (!thought) {

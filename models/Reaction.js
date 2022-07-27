@@ -4,7 +4,7 @@ const moment = require('moment');
 const reactionSchema = new Schema(
   {
     reactionId: {
-      type: Types.ObjectId(),
+      type: Types.ObjectId,
       default: new Types.ObjectId(),
     },
     reactionText: {

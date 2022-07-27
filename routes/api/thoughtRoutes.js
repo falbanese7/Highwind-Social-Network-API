@@ -19,10 +19,10 @@ router
   .put(updateThought)
   .delete(deleteThought);
 
-// creates and deletes reactions based on user's friends' id's
-router
-  .route('/:userId/friends/:friendId')
-  .post(addReaction)
-  .delete(deleteReaction);
+// creates reactions based on thought id's
+router.route('/:thoughtId/reactions').post(addReaction);
+
+// deletes single reactions based on thought id's
+router.route('/:thoughtId/reactions/:reactionId').delete(deleteReaction);
 
 module.exports = router;

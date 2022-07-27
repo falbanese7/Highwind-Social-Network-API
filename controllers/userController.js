@@ -9,8 +9,8 @@ const userController = {
       .catch((err) => res.status(500).json(err));
   },
   // Get a single user
-  getSingleUser(req, res) {
-    User.findOne({ _id: req.params.userId })
+  getSingleUser({ params }, res) {
+    User.findOne({ _id: params.id })
       .populate([
         { path: 'thoughts', select: '-__v' },
         { path: 'friends', select: '-__v' },
@@ -47,20 +47,24 @@ const userController = {
   // Delete a user and associated thoughts
   deleteUser({ params }, res) {
     User.findOneAndDelete({ _id: params.id })
-      .then((user) =>
-        !user
-          ? res.status(404).json({ message: 'No user with that ID' })
-          : User.updateMany(
-              { _id: { $in: user.friends } },
-              { $pull: { friends: params.id } }
-            )
-      )
-      .then(() => {
-        Thought.deleteMany({ username: user.username });
+      .then((user) => {
+        if (!user) {
+          res.status(404).json({ message: 'No user with that ID' });
+          return;
+        }
+        User.updateMany(
+          { _id: { $in: user.friends } },
+          { $pull: { friends: params.id } }
+        )
+          .then(() => {
+            Thought.deleteMany({ username: user.username })
+              .then(() => {
+                res.json({ message: 'User and thoughts deleted successfully' });
+              })
+              .catch((err) => res.status(400).json(err));
+          })
+          .catch((err) => res.status(400).json(err));
       })
-      .then(() =>
-        res.json({ message: 'User and associated thoughts deleted!' })
-      )
       .catch((err) => res.status(400).json(err));
   },
 
@@ -88,9 +92,9 @@ const userController = {
             }
             res.json(user);
           })
-          .catch((err) => json(err));
+          .catch((err) => res.status(400).json(err));
       })
-      .catch((err) => json(err));
+      .catch((err) => res.status(400).json(err));
   },
   // Delete a friend and remove from any associated users' friend lists
   deleteFriend({ params }, res) {
@@ -116,9 +120,9 @@ const userController = {
             }
             res.json({ message: 'Successfully deleted friend' });
           })
-          .catch((err) => json(err));
+          .catch((err) => res.status(400).json(err));
       })
-      .catch((err) => json(err));
+      .catch((err) => res.status(400).json(err));
   },
 };
 
