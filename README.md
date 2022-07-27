@@ -26,19 +26,14 @@ Found in this repository is the back end for an API for a social network web app
 3. Git clone the repository to your local computer
 4. Open the repository using a code editing application like Visual Studio Code
 5. Open an integrated terminal in the repository's root directory
-6. Type npm i to install the depencies needed to run the application
-7.
-8. Exit the MySQL shell and type `npm run seed` into the command line
-9. Type `npm start` into the command line to start the server
-
-[This video will demonstrate how to create the schema from the MySQL shell, seed the database from the command line, and start the application's server.](https://drive.google.com/file/d/1e5S9rFYjPCGaZWITnu9Y4VkEvC4OupRL/view?usp=sharing)
+6. Type `npm i` to install the depencies needed to run the application
 
 ## Usage
 
 1. Open the repository's root directory in an integrated terminal
 2. Type `npm start` into the command line
 3. Once the server has started running, open Insomnia
-4. Watch the following video example on using Insomnia to test GET, PUT, POST, and DELETE requests
+4. Watch the following video example on using Insomnia to test `GET, PUT, POST,` and `DELETE` requests
 
 [This video will demonstrate GET, PUT, POST, and DELETE routes for the application being tested in Insomnia.](https://drive.google.com/file/d/1o2XRU0hjI8RgM6ejXaQ0IJ6tbtRbRbv6/view?usp=sharing)
 
