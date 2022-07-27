@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const reactionSchema = require('./Reaction');
 const moment = require('moment');
 
 // Schema to create Student model
@@ -38,4 +39,4 @@ thoughtSchema.virtual(
 
 const Thought = model('Thought', thoughtSchema);
 
-module.exports = User;
+module.exports = Thought;
