@@ -1,8 +1,11 @@
-const router = require('express').Router();
-const apiRoutes = require('./api');
+const { connect, connection } = require('mongoose');
 
-router.use('/api', apiRoutes);
+const connectionString =
+  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/highwindDB';
 
-router.use((req, res) => res.send('Wrong route!'));
+connect(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-module.exports = router;
+module.exports = connection;
