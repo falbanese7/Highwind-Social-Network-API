@@ -46,6 +46,6 @@ userSchema.virtual(
   })
 );
 
-const User = model('User', studentSchema);
+const User = model('User', userSchema);
 
 module.exports = User;
